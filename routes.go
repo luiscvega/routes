@@ -9,6 +9,12 @@ type Handler interface {
 	Serve(http.ResponseWriter, *http.Request, map[string]string)
 }
 
+type HandlerFunc func(http.ResponseWriter, *http.Request, map[string]string)
+
+func (hf HandlerFunc) Serve(w http.ResponseWriter, r *http.Request, params map[string]string) {
+	hf(w, r, params)
+}
+
 type route struct {
 	method  string
 	pattern *regexp.Regexp
